@@ -1,24 +1,25 @@
 import 'source.dart';
 
 class SourceResponse {
-	String? status;
-	List<Source>? sources;
+  String? status;
+  List<Source>? sources;
+  String? code;
+  String? message;
+  SourceResponse({this.status, this.sources, this.code, this.message});
 
-	SourceResponse({this.status, this.sources});
+  factory SourceResponse.fromJson(Map<String, dynamic> json) {
+    return SourceResponse(
+      code: json["code"],
+      message: json["message"],
+      status: json['status'] as String?,
+      sources: json["sources"] == null
+          ? []
+          : List<Source>.from(json["sources"]!.map((x) => Source.fromJson(x))),
+    );
+  }
 
-	factory SourceResponse.fromJson(Map<String, dynamic> json) {
-		return SourceResponse(
-			status: json['status'] as String?,
-			sources: (json['sources'] as List<dynamic>?)
-						?.map((e) => Source.fromJson(e as Map<String, dynamic>))
-						.toList(),
-		);
-	}
-
-
-
-	Map<String, dynamic> toJson() => {
-				'status': status,
-				'sources': sources?.map((e) => e.toJson()).toList(),
-			};
+  Map<String, dynamic> toJson() => {
+        'status': status,
+        'sources': sources?.map((e) => e.toJson()).toList(),
+      };
 }
