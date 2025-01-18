@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:news_route/providers/app_theme_provider.dart';
 import 'package:news_route/ui/category_deatils.dart';
 import 'package:news_route/ui/home_screen.dart';
 import 'package:news_route/utils/theme_app.dart';
+import 'package:provider/provider.dart';
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  runApp(const MyApp());
+  runApp(MultiProvider(providers: [
+    ChangeNotifierProvider(create: (context) => AppThemeProvider()),
+  ], child: const MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -15,12 +19,14 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    var themeProvider = Provider.of<AppThemeProvider>(context);
+
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       initialRoute: HomeScreen.homeScreenId,
       darkTheme: ThemeApp.darkTheme,
       theme: ThemeApp.lightTheme,
-      themeMode: ThemeMode.light,
+      themeMode: themeProvider.appThemeMode,
       routes: {
         HomeScreen.homeScreenId: (context) => const HomeScreen(),
         categoryDetails.categoryDetailsId: (context) => const categoryDetails(),

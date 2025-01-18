@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:news_route/ui/Home_drawer.dart';
 import 'package:news_route/ui/category_deatils.dart';
 import 'package:news_route/utils/app_style.dart';
 
@@ -10,14 +11,16 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          "Home",
-          style: AppStyle.Medium20Black.copyWith(
-              color: Theme.of(context).indicatorColor),
+        appBar: AppBar(
+          title: Text(
+            "Home",
+            style: AppStyle.Medium20Black.copyWith(
+                color: Theme.of(context).indicatorColor),
+          ),
         ),
-      ),
-      body: categoryDetails(),
-    );
+        body: categoryDetails(),
+        drawer: Drawer(
+          child: HomeDrawer(),
+        ));
   }
 }
