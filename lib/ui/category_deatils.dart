@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:news_route/apis/api_manager.dart';
+import 'package:news_route/models/category_model.dart';
 import 'package:news_route/models/source_response/source.dart';
 import 'package:news_route/models/source_response/source_response.dart';
 import 'package:news_route/ui/source_tab.dart';
 import 'package:news_route/utils/app_style.dart';
 
 class categoryDetails extends StatelessWidget {
-  static const categoryDetailsId = "CategoryDetails";
-  const categoryDetails({super.key});
+  CategoryModel categoryModel;
+  categoryDetails({required this.categoryModel, super.key});
 
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<SourceResponse?>(
-        future: ApiManager.getSources(),
+        future: ApiManager.getSources(categoryModel.id),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(

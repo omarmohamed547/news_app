@@ -5,7 +5,9 @@ import 'package:news_route/utils/app_style.dart';
 import 'package:provider/provider.dart';
 
 class HomeDrawer extends StatelessWidget {
-  const HomeDrawer({
+  void Function() onTabDrwaer;
+  HomeDrawer({
+    required this.onTabDrwaer,
     super.key,
   });
 
@@ -29,11 +31,14 @@ class HomeDrawer extends StatelessWidget {
               ),
             ),
           ),
-          RowForDrawer(
-              image: "assets/icons/Home.png",
-              text: "Go To Home",
-              width: width,
-              height: height),
+          InkWell(
+            onTap: onTabDrwaer,
+            child: RowForDrawer(
+                image: "assets/icons/Home.png",
+                text: "Go To Home",
+                width: width,
+                height: height),
+          ),
           SizedBox(
             height: height * 0.02,
           ),

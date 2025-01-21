@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:news_route/models/news_response/news_response.dart';
 import 'package:news_route/utils/app_style.dart';
 import 'package:get_time_ago/get_time_ago.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class NewsItem extends StatelessWidget {
   Article news;
@@ -27,10 +28,16 @@ class NewsItem extends StatelessWidget {
           children: [
             ClipRRect(
               borderRadius: BorderRadius.circular(16),
-              child: Image.network(
-                  fit: BoxFit.fill,
-                  width: double.infinity,
-                  news.urlToImage ?? ""),
+              child: CachedNetworkImage(
+                imageUrl: news.urlToImage ?? "",
+                fit: BoxFit.fill,
+                width: double.infinity,
+                placeholder: (context, url) => Center(
+                    child: CircularProgressIndicator(
+                  color: Colors.grey,
+                )),
+                errorWidget: (context, url, error) => Icon(Icons.error),
+              ),
             ),
             SizedBox(
               height: height * 0.01,

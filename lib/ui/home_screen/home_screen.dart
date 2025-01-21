@@ -1,27 +1,51 @@
 import 'package:flutter/material.dart';
+import 'package:news_route/models/category_model.dart';
+import 'package:news_route/ui/category_fragment.dart';
 import 'package:news_route/ui/home_screen/Home_drawer.dart';
 import 'package:news_route/ui/category_deatils.dart';
 import 'package:news_route/utils/app_style.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   static const homeScreenId = "HomeScreen";
 
-  const HomeScreen({super.key});
+  HomeScreen({super.key});
 
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
           title: Text(
-            "Home",
+            selectedCategory == null ? "Home" : selectedCategory!.title,
             style: AppStyle.Medium20Black.copyWith(
                 color: Theme.of(context).indicatorColor),
           ),
         ),
-        body: categoryDetails(),
+        body: selectedCategory == null
+            ? CategoryFragment(
+                onViewClicked: onViewClicked,
+              )
+            : categoryDetails(categoryModel: selectedCategory!),
         drawer: Drawer(
           backgroundColor: Theme.of(context).iconTheme.color,
-          child: HomeDrawer(),
+          child: HomeDrawer(
+            onTabDrwaer: () {
+              selectedCategory = null;
+              Navigator.pop(context);
+              setState(() {});
+            },
+          ),
         ));
+  }
+
+  CategoryModel? selectedCategory;
+
+  void onViewClicked(CategoryModel newCategory) {
+    selectedCategory = newCategory;
+    setState(() {});
   }
 }

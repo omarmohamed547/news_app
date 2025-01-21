@@ -40,7 +40,9 @@ class NewsWidget extends StatelessWidget {
                 children: [
                   Text(snapshot.data!.message!),
                   ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      ApiManager.getNewsById(source.id ?? "");
+                    },
                     child: Text('Try Again'),
                   )
                 ],

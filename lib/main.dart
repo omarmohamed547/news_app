@@ -28,8 +28,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeApp.lightTheme,
       themeMode: themeProvider.appThemeMode,
       routes: {
-        HomeScreen.homeScreenId: (context) => const HomeScreen(),
-        categoryDetails.categoryDetailsId: (context) => const categoryDetails(),
+        HomeScreen.homeScreenId: (context) => HomeScreen(),
       },
     );
   }

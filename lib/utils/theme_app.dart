@@ -11,11 +11,15 @@ class ThemeApp {
         backgroundColor: Colors.white,
       ),
       indicatorColor: Colors.black,
-      textTheme: TextTheme(labelLarge: AppStyle.bold16Black),
+      textTheme: TextTheme(
+          labelLarge: AppStyle.bold16Black,
+          headlineMedium: AppStyle.Medium24Black),
       drawerTheme: DrawerThemeData(backgroundColor: Colors.black));
 
   static ThemeData darkTheme = ThemeData(
-    textTheme: TextTheme(labelLarge: AppStyle.bold16White),
+    textTheme: TextTheme(
+        labelLarge: AppStyle.bold16White,
+        headlineMedium: AppStyle.Medium24White),
     primaryColor: Colors.black,
     indicatorColor: Colors.white,
     scaffoldBackgroundColor: Colors.black,
