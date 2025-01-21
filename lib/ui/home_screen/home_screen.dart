@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:news_route/ui/Home_drawer.dart';
+import 'package:news_route/ui/home_screen/Home_drawer.dart';
 import 'package:news_route/ui/category_deatils.dart';
 import 'package:news_route/utils/app_style.dart';
 
@@ -20,6 +20,7 @@ class HomeScreen extends StatelessWidget {
         ),
         body: categoryDetails(),
         drawer: Drawer(
+          backgroundColor: Theme.of(context).iconTheme.color,
           child: HomeDrawer(),
         ));
   }

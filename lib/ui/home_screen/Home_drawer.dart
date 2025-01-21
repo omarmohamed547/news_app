@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:news_route/ui/Theme_bootom_sheet.dart';
+import 'package:news_route/providers/app_theme_provider.dart';
+import 'package:news_route/ui/home_screen/Theme_bootom_sheet.dart';
 import 'package:news_route/utils/app_style.dart';
+import 'package:provider/provider.dart';
 
 class HomeDrawer extends StatelessWidget {
   const HomeDrawer({
@@ -11,7 +13,7 @@ class HomeDrawer extends StatelessWidget {
   Widget build(BuildContext context) {
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
-
+    var themeProvider = Provider.of<AppThemeProvider>(context);
     return Container(
       color: Color(0xff171717),
       child: Column(
@@ -54,7 +56,11 @@ class HomeDrawer extends StatelessWidget {
                       return ThemeBootomSheet(width: width, height: height);
                     });
               },
-              text: "Dark",
+              text: themeProvider.appThemeMode == ThemeMode.dark
+                  ? "Dark"
+                  : themeProvider.appThemeMode == ThemeMode.light
+                      ? "Light"
+                      : "",
               width: width,
               height: height),
           Divider(

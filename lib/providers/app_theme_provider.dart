@@ -3,6 +3,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class AppThemeProvider extends ChangeNotifier {
   ThemeMode appThemeMode = ThemeMode.light;
+  AppThemeProvider() {
+    loadAppTheme();
+  }
   void changeThemeApp(ThemeMode newTheme) async {
     if (newTheme == appThemeMode) {
     } else {
