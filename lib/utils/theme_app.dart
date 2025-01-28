@@ -13,11 +13,13 @@ class ThemeApp {
       indicatorColor: Colors.black,
       textTheme: TextTheme(
           labelLarge: AppStyle.bold16Black,
+          titleSmall: AppStyle.Medium14White,
           headlineMedium: AppStyle.Medium24Black),
       drawerTheme: DrawerThemeData(backgroundColor: Colors.black));
 
   static ThemeData darkTheme = ThemeData(
     textTheme: TextTheme(
+        titleSmall: AppStyle.Medium14Black,
         labelLarge: AppStyle.bold16White,
         headlineMedium: AppStyle.Medium24White),
     primaryColor: Colors.black,

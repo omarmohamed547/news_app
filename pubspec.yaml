@@ -43,6 +43,7 @@ dependencies:
   get_time_ago: ^2.1.1
   toggle_switch: ^2.3.0
   cached_network_image: ^3.4.1
+  url_launcher: ^6.3.1
 
 
 dev_dependencies:

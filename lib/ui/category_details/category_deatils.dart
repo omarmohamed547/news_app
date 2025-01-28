@@ -1,66 +1,66 @@
 import 'package:flutter/material.dart';
 import 'package:news_route/apis/api_manager.dart';
-import 'package:news_route/models/news_response/news_response.dart';
+import 'package:news_route/models/category_model.dart';
 import 'package:news_route/models/source_response/source.dart';
-import 'package:news_route/ui/News/News_item.dart';
-import 'package:news_route/ui/News/news_view_model.dart';
+import 'package:news_route/models/source_response/source_response.dart';
+import 'package:news_route/ui/category_details/category_details_viewmodel.dart';
+import 'package:news_route/ui/source_tab.dart';
+import 'package:news_route/utils/app_style.dart';
 import 'package:provider/provider.dart';
 
-class NewsWidget extends StatefulWidget {
-  Source source;
-  NewsWidget({required this.source, super.key});
+class categoryDetails extends StatefulWidget {
+  CategoryModel categoryModel;
+  categoryDetails({required this.categoryModel, super.key});
 
   @override
-  State<NewsWidget> createState() => _NewsWidgetState();
+  State<categoryDetails> createState() => _categoryDetailsState();
 }
 
-class _NewsWidgetState extends State<NewsWidget> {
-  NewsViewModel newsViewModel = NewsViewModel();
+class _categoryDetailsState extends State<categoryDetails> {
+  CategoryDetailsViewmodel categoryDetailsViewmodel =
+      CategoryDetailsViewmodel();
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-
-    newsViewModel.getNews(widget.source.id!);
+    categoryDetailsViewmodel.getSource(widget.categoryModel.id);
   }
 
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-        create: (context) => newsViewModel,
-        child:
-            Consumer<NewsViewModel>(builder: (context, newsViewModel, child) {
-          if (newsViewModel.errorMessage != null) {
+        create: (context) => categoryDetailsViewmodel,
+        child: Consumer<CategoryDetailsViewmodel>(
+            builder: (context, categoryDetailsViewmodel, child) {
+          if (categoryDetailsViewmodel.errorMessage != null) {
             return Center(
               child: Column(
                 children: [
-                  Text(newsViewModel.errorMessage!),
+                  Text(categoryDetailsViewmodel.errorMessage!),
                   ElevatedButton(
                     onPressed: () {
-                      newsViewModel.getNews(widget.source.id!);
+                      categoryDetailsViewmodel
+                          .getSource(widget.categoryModel.id);
                     },
                     child: Text('Try Again'),
                   )
                 ],
               ),
             );
-          } else if (newsViewModel.newsList == null) {
+          } else if (categoryDetailsViewmodel.sourceList == null) {
             return const Center(
                 child: CircularProgressIndicator(
               color: Colors.grey,
             ));
           } else {
-            return ListView.builder(
-                itemCount: newsViewModel.newsList!.length,
-                itemBuilder: (itemBuilder, index) {
-                  return NewsItem(news: newsViewModel.newsList![index]);
-                });
+            return SourceTabWidget(
+                sourceList: categoryDetailsViewmodel.sourceList);
           }
         })
 
-        /* FutureBuilder<NewsResponse?>(
-          future: ApiManager.getNewsById(source.id ?? ""),
-          builder: (builder, snapshot) {
+        /* FutureBuilder<SourceResponse?>(
+          future: ApiManager.getSources(categoryModel.id),
+          builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const Center(
                   child: CircularProgressIndicator(
@@ -80,7 +80,7 @@ class _NewsWidgetState extends State<NewsWidget> {
               );
             }
       
-            //server response
+            //server return response(success,error)
       
             if (snapshot.data!.status == 'error') {
               return Center(
@@ -88,24 +88,16 @@ class _NewsWidgetState extends State<NewsWidget> {
                   children: [
                     Text(snapshot.data!.message!),
                     ElevatedButton(
-                      onPressed: () {
-                        ApiManager.getNewsById(source.id ?? "");
-                      },
+                      onPressed: () {},
                       child: Text('Try Again'),
                     )
                   ],
                 ),
               );
             } else {
-              var newsList = snapshot.data!.articles;
+              var sourceList = snapshot.data!.sources;
       
-              return ListView.builder(
-                  itemCount: newsList.length,
-                  itemBuilder: (itemBuilder, index) {
-                    return NewsItem(
-                      
-                      news: newsList[index]);
-                  });
+              return SourceTabWidget(sourceList: sourceList);
             }
           }),*/
         );

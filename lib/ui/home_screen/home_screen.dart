@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:news_route/models/category_model.dart';
 import 'package:news_route/ui/category_fragment.dart';
 import 'package:news_route/ui/home_screen/Home_drawer.dart';
-import 'package:news_route/ui/category_deatils.dart';
+import 'package:news_route/ui/category_details/category_deatils.dart';
 import 'package:news_route/utils/app_style.dart';
 
 class HomeScreen extends StatefulWidget {
   static const homeScreenId = "HomeScreen";
-
+  bool searchtextfield = false;
   HomeScreen({super.key});
 
   @override
@@ -24,6 +24,19 @@ class _HomeScreenState extends State<HomeScreen> {
             style: AppStyle.Medium20Black.copyWith(
                 color: Theme.of(context).indicatorColor),
           ),
+          actions: [
+            InkWell(
+              onTap: () {
+                widget.searchtextfield = true;
+                setState(() {});
+              },
+              child: Icon(
+                size: 26,
+                Icons.search,
+                color: Theme.of(context).indicatorColor,
+              ),
+            )
+          ],
         ),
         body: selectedCategory == null
             ? CategoryFragment(
