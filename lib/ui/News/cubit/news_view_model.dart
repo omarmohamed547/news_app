@@ -1,15 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_route/apis/api_manager.dart';
+import 'package:news_route/repository/news/dataSource/news_remote_dataSource.dart';
+import 'package:news_route/repository/news/dataSource/news_remote_dataSource_impl.dart';
+import 'package:news_route/repository/news/repository/news_repsitory.dart';
+import 'package:news_route/repository/news/repository/news_rpository_impl.dart';
 import 'package:news_route/ui/News/cubit/news_state.dart';
 
 class NewsViewModel extends Cubit<NewsState> {
-  NewsViewModel() : super(NewsLoadingState());
+  late NewsRepsitory newsRepsitory;
+  late NewsRemoteDatasource newsRemoteDatasource;
+  late ApiManager apiManager;
+  NewsViewModel() : super(NewsLoadingState()) {
+    apiManager = ApiManager();
+    newsRemoteDatasource = NewsRemoteDatasourceImpl(apiManager: apiManager);
+
+    newsRepsitory =
+        NewsRpositoryImpl(newsRemoteDatasource: newsRemoteDatasource);
+  }
 
   void getNews(String sourcId) async {
     try {
       emit(NewsLoadingState());
-      var response = await ApiManager.getNewsById(sourcId);
+      var response = await newsRepsitory.getNewsById(sourcId);
       if (response!.status == 'ereeor') {
         emit(NewsFailureState(errorMessage: response.message!));
       } else {
