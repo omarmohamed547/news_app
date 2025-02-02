@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_route/apis/api_manager.dart';
+import 'package:news_route/di/di.dart';
 import 'package:news_route/models/category_model.dart';
 import 'package:news_route/models/source_response/source.dart';
 import 'package:news_route/models/source_response/source_response.dart';
@@ -19,7 +20,8 @@ class categoryDetails extends StatefulWidget {
 }
 
 class _categoryDetailsState extends State<categoryDetails> {
-  sourceViewModel sourceviewmodel = sourceViewModel();
+  sourceViewModel sourceviewmodel =
+      sourceViewModel(sourceRepository: injectSourceRepos());
   @override
   void initState() {
     // TODO: implement initState

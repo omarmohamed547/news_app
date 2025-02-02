@@ -1,10 +1,27 @@
-class Source {
+import 'package:hive_flutter/hive_flutter.dart';
+part 'source.g.dart';
+
+@HiveType(typeId: 2)
+class Source extends HiveObject {
+  @HiveField(0)
   String? id;
+
+  @HiveField(1)
   String? name;
+
+  @HiveField(2)
   String? description;
+
+  @HiveField(3)
   String? url;
+
+  @HiveField(4)
   String? category;
+
+  @HiveField(5)
   String? language;
+
+  @HiveField(6)
   String? country;
 
   Source({
@@ -17,7 +34,7 @@ class Source {
     this.country,
   });
 
-  factory Source.fromJson(Map<String, dynamic> json) => Source(
+  factory Source.fromJson(Map<dynamic, dynamic> json) => Source(
         id: json['id'] as String?,
         name: json['name'] as String?,
         description: json['description'] as String?,

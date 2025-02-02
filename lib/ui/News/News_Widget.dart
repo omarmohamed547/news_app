@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_route/apis/api_manager.dart';
+import 'package:news_route/di/di.dart';
 import 'package:news_route/models/news_response/news_response.dart';
 import 'package:news_route/models/source_response/source.dart';
 import 'package:news_route/ui/News/News_item.dart';
@@ -17,7 +18,7 @@ class NewsWidget extends StatefulWidget {
 }
 
 class _NewsWidgetState extends State<NewsWidget> {
-  NewsViewModel newsViewModel = NewsViewModel();
+  NewsViewModel newsViewModel = NewsViewModel(newsRepsitory: injectNewsRepos());
   @override
   void initState() {
     // TODO: implement initState

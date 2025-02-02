@@ -8,17 +8,12 @@ import 'package:news_route/repository/source/repository/source_reps_impl.dart';
 import 'package:news_route/ui/category_details/cubit/source_states.dart';
 
 class sourceViewModel extends Cubit<SourceStates> {
-  late SourceRepository sourceRepository;
-  late SourceRemoteDatasource sourceRemoteDatasource;
-  late ApiManager apiManager;
+  SourceRepository sourceRepository;
 // extend att , methods expect constructor
-  sourceViewModel() : super(SourceLoadingState()) {
-    apiManager = ApiManager();
-    sourceRemoteDatasource = SourceRemoteDatasourceImpl(apiManager: apiManager);
+  sourceViewModel({required this.sourceRepository})
+      : super(SourceLoadingState());
 
-    sourceRepository =
-        SourceRepsImpl(sourceRemoteDatasource: sourceRemoteDatasource);
-  }
+  ///constructor injection
 //hold data
   int seletedIndex = 0;
 //handle logic

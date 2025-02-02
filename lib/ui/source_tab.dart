@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:news_route/di/di.dart';
 import 'package:news_route/models/source_response/source.dart';
 import 'package:news_route/ui/News/News_Widget.dart';
 import 'package:news_route/ui/category_details/cubit/source_states.dart';
@@ -21,7 +22,8 @@ class SourceTabWidget extends StatefulWidget {
 
 class _SourceTabWidgetState extends State<SourceTabWidget> {
   //int selectedIndex = 0;
-  sourceViewModel sourceviewmodel = sourceViewModel();
+  sourceViewModel sourceviewmodel =
+      sourceViewModel(sourceRepository: injectSourceRepos());
 
   @override
   Widget build(BuildContext context) {
