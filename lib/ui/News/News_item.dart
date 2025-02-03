@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:news_route/models/news_response/news_response.dart';
+import 'package:news_route/models/news_response/article.dart';
 import 'package:news_route/utils/app_style.dart';
 import 'package:get_time_ago/get_time_ago.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -7,8 +7,8 @@ import 'package:url_launcher/url_launcher.dart';
 
 class NewsItem extends StatelessWidget {
   Article news;
-  NewsItem({required this.news, super.key,this.searchtextfield=false});
-  bool searchtextfield ;
+  NewsItem({required this.news, super.key, this.searchtextfield = false});
+  bool searchtextfield;
 
   @override
   Widget build(BuildContext context) {
@@ -84,13 +84,23 @@ class NewsItem extends StatelessWidget {
             });
       },
       child: Column(
-        
         children: [
-         searchtextfield? TextField(decoration: InputDecoration(
-          enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(16),
-          borderSide: BorderSide(width: 1.5,color: Theme.of(context).indicatorColor)),
-          focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(16),borderSide: BorderSide(width: 1.5,color: Theme.of(context).indicatorColor)),
-         ),):SizedBox.shrink(),
+          searchtextfield
+              ? TextField(
+                  decoration: InputDecoration(
+                    enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(16),
+                        borderSide: BorderSide(
+                            width: 1.5,
+                            color: Theme.of(context).indicatorColor)),
+                    focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(16),
+                        borderSide: BorderSide(
+                            width: 1.5,
+                            color: Theme.of(context).indicatorColor)),
+                  ),
+                )
+              : SizedBox.shrink(),
           Container(
             margin: EdgeInsets.symmetric(
                 horizontal: width * 0.02, vertical: height * 0.01),

@@ -1,4 +1,6 @@
 import 'package:news_route/apis/api_manager.dart';
+import 'package:news_route/repository/news/dataSource/news_local_dataSource-impl.dart';
+import 'package:news_route/repository/news/dataSource/news_local_dataSource.dart';
 import 'package:news_route/repository/news/dataSource/news_remote_dataSource.dart';
 import 'package:news_route/repository/news/dataSource/news_remote_dataSource_impl.dart';
 import 'package:news_route/repository/news/repository/news_repsitory.dart';
@@ -28,9 +30,15 @@ ApiManager injectApiManager() {
 }
 
 NewsRepsitory injectNewsRepos() {
-  return NewsRpositoryImpl(newsRemoteDatasource: injectNewsRemoteDatasource());
+  return NewsRpositoryImpl(
+      newsRemoteDatasource: injectNewsRemoteDatasource(),
+      newsLocalDatasource: injectNewslocaldataSource());
 }
 
 NewsRemoteDatasource injectNewsRemoteDatasource() {
   return NewsRemoteDatasourceImpl(apiManager: injectApiManager());
+}
+
+NewsLocalDatasource injectNewslocaldataSource() {
+  return NewsLocalDatasourceImpl();
 }

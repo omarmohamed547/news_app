@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:news_route/models/news_response/news_response.dart';
 import 'package:news_route/models/source_response/source.dart';
 import 'package:news_route/models/source_response/source_response.dart';
 import 'package:news_route/providers/app_theme_provider.dart';
@@ -17,6 +18,8 @@ void main() async {
   Hive.init(directory.path);
   Hive.registerAdapter(SourceResponseAdapter());
   Hive.registerAdapter(SourceAdapter());
+  Hive.registerAdapter(NewsResponseAdapter());
+  Hive.registerAdapter(ArticleAdapter());
   runApp(MultiProvider(providers: [
     ChangeNotifierProvider(create: (context) => AppThemeProvider()),
   ], child: const MyApp()));
