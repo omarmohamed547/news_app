@@ -19,6 +19,17 @@ class NewsWidget extends StatefulWidget {
 
 class _NewsWidgetState extends State<NewsWidget> {
   NewsViewModel newsViewModel = NewsViewModel(newsRepsitory: injectNewsRepos());
+
+  @override
+  void didUpdateWidget(covariant NewsWidget oldWidget) {
+    super.didUpdateWidget(oldWidget);
+
+    // Check if source has changed
+    if (widget.source.id != oldWidget.source.id) {
+      newsViewModel.getNews(widget.source.id!);
+    }
+  }
+
   @override
   void initState() {
     // TODO: implement initState

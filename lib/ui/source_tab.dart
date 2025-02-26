@@ -26,6 +26,16 @@ class _SourceTabWidgetState extends State<SourceTabWidget> {
       sourceViewModel(sourceRepository: injectSourceRepos());
 
   @override
+  void didUpdateWidget(covariant SourceTabWidget oldWidget) {
+    super.didUpdateWidget(oldWidget);
+
+    // Check if the sourceList has changed and reset selectedIndex if needed
+    if (widget.sourceList != oldWidget.sourceList) {
+      sourceviewmodel.changeIndex(0, widget.sourceList!);
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => sourceviewmodel,

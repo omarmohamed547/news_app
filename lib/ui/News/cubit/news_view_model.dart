@@ -15,8 +15,9 @@ class NewsViewModel extends Cubit<NewsState> {
     try {
       emit(NewsLoadingState());
       var response = await newsRepsitory.getNewsById(sourcId);
-      if (response!.status == 'ereeor') {
-        emit(NewsFailureState(errorMessage: response.message!));
+      if (response == null || response.status == 'error') {
+        emit(NewsFailureState(
+            errorMessage: response?.message ?? "Unknown error"));
       } else {
         emit(NewsSucessState(newsList: response.articles));
       }

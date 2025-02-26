@@ -18,7 +18,8 @@ class sourceViewModel extends Cubit<SourceStates> {
   int seletedIndex = 0;
 //handle logic
   void changeIndex(int index, List<Source> sourceList) {
-    index = seletedIndex;
+    seletedIndex = index;
+    // Update seletedIndex correctly
     emit(SourceSucessState(sourceList: sourceList));
   }
 
