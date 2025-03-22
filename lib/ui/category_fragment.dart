@@ -41,9 +41,9 @@ class CategoryFragment extends StatelessWidget {
                         Padding(
                           padding: EdgeInsets.symmetric(
                               horizontal: width * 0.03,
-                              vertical: height * 0.01),
+                              vertical: height * 0.02),
                           child: ToggleSwitch(
-                            customWidths: [width * 0.27, width * 0.10],
+                            customWidths: [width * 0.35, width * 0.10],
                             cornerRadius: 20.0,
                             activeBgColors: [
                               [Theme.of(context).primaryColor],

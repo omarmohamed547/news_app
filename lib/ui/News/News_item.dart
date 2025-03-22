@@ -33,51 +33,55 @@ class NewsItem extends StatelessWidget {
                 child: Padding(
                   padding: EdgeInsets.symmetric(
                       horizontal: width * 0.02, vertical: height * 0.01),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(16),
-                        child: CachedNetworkImage(
-                          imageUrl: news.urlToImage ?? "",
-                          fit: BoxFit.fill,
-                          width: double.infinity,
-                          placeholder: (context, url) => Center(
-                              child: CircularProgressIndicator(
-                            color: Colors.grey,
-                          )),
-                          errorWidget: (context, url, error) =>
-                              Icon(Icons.error),
-                        ),
-                      ),
-                      SizedBox(
-                        height: height * 0.01,
-                      ),
-                      Text(
-                        news.content ?? "",
-                        style: Theme.of(context).textTheme.titleSmall,
-                      ),
-                      Padding(
-                        padding: EdgeInsets.symmetric(vertical: height * 0.02),
-                        child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(16)),
-                              backgroundColor: Theme.of(context).primaryColor),
-                          onPressed: () {
-                            _launchUrl();
-                          },
-                          child: Padding(
-                            padding:
-                                EdgeInsets.symmetric(vertical: height * 0.01),
-                            child: Text(
-                              "View Full Articale",
-                              style: Theme.of(context).textTheme.labelLarge,
-                            ),
+                  child: SingleChildScrollView(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(16),
+                          child: CachedNetworkImage(
+                            imageUrl: news.urlToImage ?? "",
+                            fit: BoxFit.fill,
+                            width: double.infinity,
+                            placeholder: (context, url) => Center(
+                                child: CircularProgressIndicator(
+                              color: Colors.grey,
+                            )),
+                            errorWidget: (context, url, error) =>
+                                Icon(Icons.error),
                           ),
                         ),
-                      )
-                    ],
+                        SizedBox(
+                          height: height * 0.01,
+                        ),
+                        Text(
+                          news.content ?? "",
+                          style: Theme.of(context).textTheme.titleSmall,
+                        ),
+                        Padding(
+                          padding:
+                              EdgeInsets.symmetric(vertical: height * 0.02),
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(16)),
+                                backgroundColor:
+                                    Theme.of(context).primaryColor),
+                            onPressed: () {
+                              _launchUrl();
+                            },
+                            child: Padding(
+                              padding:
+                                  EdgeInsets.symmetric(vertical: height * 0.01),
+                              child: Text(
+                                "View Full Articale",
+                                style: Theme.of(context).textTheme.labelLarge,
+                              ),
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
                   ),
                 ),
               );

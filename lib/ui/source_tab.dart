@@ -9,30 +9,60 @@ import 'package:news_route/utils/app_style.dart';
 import 'package:provider/provider.dart';
 
 class SourceTabWidget extends StatefulWidget {
-  SourceTabWidget({
-    super.key,
-    required this.sourceList,
-  });
+  SourceTabWidget({super.key, required this.sourceList, this.selectedSource});
 
   final List<Source>? sourceList;
+  final Source? selectedSource;
 
   @override
   State<SourceTabWidget> createState() => _SourceTabWidgetState();
 }
 
-class _SourceTabWidgetState extends State<SourceTabWidget> {
-  //int selectedIndex = 0;
-  sourceViewModel sourceviewmodel =
-      sourceViewModel(sourceRepository: injectSourceRepos());
+class _SourceTabWidgetState extends State<SourceTabWidget>
+    with SingleTickerProviderStateMixin {
+  late sourceViewModel sourceviewmodel;
+  late TabController _tabController;
+
+  @override
+  void initState() {
+    super.initState();
+    sourceviewmodel = sourceViewModel(sourceRepository: injectSourceRepos());
+
+    int initialIndex = widget.selectedSource != null
+        ? widget.sourceList!.indexOf(widget.selectedSource!)
+        : 0;
+
+    _tabController = TabController(
+      length: widget.sourceList!.length,
+      vsync: this,
+      initialIndex: initialIndex,
+    );
+
+    _tabController.addListener(() {
+      if (_tabController.indexIsChanging) {
+        sourceviewmodel.changeIndex(_tabController.index, widget.sourceList!);
+      }
+    });
+  }
 
   @override
   void didUpdateWidget(covariant SourceTabWidget oldWidget) {
     super.didUpdateWidget(oldWidget);
-
-    // Check if the sourceList has changed and reset selectedIndex if needed
-    if (widget.sourceList != oldWidget.sourceList) {
-      sourceviewmodel.changeIndex(0, widget.sourceList!);
+    if (widget.selectedSource != oldWidget.selectedSource &&
+        widget.selectedSource != null) {
+      int newIndex = widget.sourceList!
+          .indexWhere((source) => source.id == widget.selectedSource!.id);
+      if (newIndex != -1 && _tabController.index != newIndex) {
+        _tabController.animateTo(newIndex);
+      }
+      sourceviewmodel.changeIndex(newIndex, widget.sourceList!);
     }
+  }
+
+  @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
   }
 
   @override
@@ -46,12 +76,7 @@ class _SourceTabWidgetState extends State<SourceTabWidget> {
             DefaultTabController(
               length: widget.sourceList!.length,
               child: TabBar(
-                  onTap: (index) {
-                    sourceviewmodel.changeIndex(index, widget.sourceList!);
-                    print("index $index");
-                    print("sindex ${sourceviewmodel.seletedIndex}");
-                    print("ss${widget.sourceList!.indexOf(Source())}");
-                  },
+                  controller: _tabController,
                   dividerColor: Colors.transparent,
                   tabAlignment: TabAlignment.start,
                   isScrollable: true,
