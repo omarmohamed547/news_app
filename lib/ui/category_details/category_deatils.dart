@@ -13,7 +13,9 @@ import 'package:provider/provider.dart';
 
 class categoryDetails extends StatefulWidget {
   CategoryModel categoryModel;
-  categoryDetails({required this.categoryModel, super.key});
+  Source? selectedSource;
+  categoryDetails(
+      {required this.categoryModel, this.selectedSource, super.key});
 
   @override
   State<categoryDetails> createState() => _categoryDetailsState();
@@ -36,7 +38,9 @@ class _categoryDetailsState extends State<categoryDetails> {
       child: BlocBuilder<sourceViewModel, SourceStates>(
         builder: (context, state) {
           if (state is SourceSucessState) {
-            return SourceTabWidget(sourceList: state.sourceList);
+            return SourceTabWidget(
+                selectedSource: widget.selectedSource,
+                sourceList: state.sourceList);
           } else if (state is SourceFailureState) {
             return Center(
               child: Column(

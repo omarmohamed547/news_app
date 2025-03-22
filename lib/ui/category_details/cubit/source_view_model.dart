@@ -16,9 +16,12 @@ class sourceViewModel extends Cubit<SourceStates> {
   ///constructor injection
 //hold data
   int seletedIndex = 0;
+  List<Source> sourceListt = [];
 //handle logic
   void changeIndex(int index, List<Source> sourceList) {
     seletedIndex = index;
+    sourceListt = sourceList;
+
     // Update seletedIndex correctly
     emit(SourceSucessState(sourceList: sourceList));
   }
@@ -31,6 +34,9 @@ class sourceViewModel extends Cubit<SourceStates> {
         emit(SourceFailureState(errorMessage: response.message!));
       } else {
         emit(SourceSucessState(sourceList: response.sources!));
+        sourceListt = response.sources!;
+        print(
+            "Fetched Sources: ${sourceListt.map((s) => s.name).toList()}"); // Debugging
       }
     } catch (e) {
       emit(SourceFailureState(errorMessage: e.toString()));

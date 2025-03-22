@@ -23,7 +23,7 @@ class HomeDrawer extends StatelessWidget {
           Container(
             color: Colors.white,
             height: height * 0.19,
-            width: width * 0.72,
+            width: double.infinity,
             child: Center(
               child: Text(
                 "News App",

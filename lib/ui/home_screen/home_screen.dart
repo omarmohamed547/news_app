@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:news_route/di/di.dart';
 import 'package:news_route/models/category_model.dart';
+import 'package:news_route/models/source_response/source.dart';
+import 'package:news_route/ui/category_details/cubit/source_states.dart';
+import 'package:news_route/ui/category_details/cubit/source_view_model.dart';
 import 'package:news_route/ui/category_fragment.dart';
 import 'package:news_route/ui/home_screen/Home_drawer.dart';
 import 'package:news_route/ui/category_details/category_deatils.dart';
 import 'package:news_route/utils/app_style.dart';
+import 'package:news_route/utils/search_anchor.dart';
 
 class HomeScreen extends StatefulWidget {
   static const homeScreenId = "HomeScreen";
@@ -15,50 +20,98 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  final SearchController searchController = SearchController();
+  List<CategoryModel> categories =
+      CategoryModel.getCategoryList(false); // Add category list
+  CategoryModel? selectedCategory;
+  List<Source> sources = [];
+  Source? selectedSource;
+
+  late sourceViewModel sourceviewmodel;
+
+  @override
+  void initState() {
+    super.initState();
+    sourceviewmodel = sourceViewModel(sourceRepository: injectSourceRepos());
+
+    if (selectedCategory != null) {
+      sourceviewmodel.getSource(selectedCategory!.id);
+    }
+  }
+
+  void _onSourceSelected(Source source) {
+    setState(() {
+      selectedSource = source;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
+      appBar: AppBar(
           title: Text(
             selectedCategory == null ? "Home" : selectedCategory!.title,
             style: AppStyle.Medium20Black.copyWith(
                 color: Theme.of(context).indicatorColor),
           ),
           actions: [
-            InkWell(
-              onTap: () {
-                widget.searchtextfield = true;
-                setState(() {});
+            IconButton(
+              icon: const Icon(Icons.search),
+              onPressed: () {
+                selectedCategory == null
+                    ? showSearch(
+                        context: context,
+                        delegate: CustomSearchDelegate<CategoryModel>(
+                          items: categories,
+                          getTitle: (category) => category.title,
+                          onSelect: (category) {
+                            setState(() {
+                              selectedCategory = category;
+                            });
+                          },
+                        ),
+                      )
+                    : showSearch(
+                        context: context,
+                        delegate: CustomSearchDelegate<Source>(
+                          items: sourceviewmodel.sourceListt,
+                          getTitle: (source) => source.name ?? "Unknown",
+                          onSelect: (source) {
+                            _onSourceSelected(source);
+                          },
+                        ),
+                      );
               },
-              child: Icon(
-                size: 26,
-                Icons.search,
-                color: Theme.of(context).indicatorColor,
-              ),
+            ),
+          ]),
+
+      body: selectedCategory == null
+          ? CategoryFragment(
+              onViewClicked: onViewClicked,
             )
-          ],
-        ),
-        body: selectedCategory == null
-            ? CategoryFragment(
-                onViewClicked: onViewClicked,
-              )
-            : categoryDetails(categoryModel: selectedCategory!),
-        drawer: Drawer(
-          backgroundColor: Theme.of(context).iconTheme.color,
-          child: HomeDrawer(
-            onTabDrwaer: () {
+          : categoryDetails(
+              selectedSource: selectedSource, categoryModel: selectedCategory!),
+      drawer: Drawer(
+        backgroundColor: Theme.of(context).iconTheme.color,
+        child: HomeDrawer(
+          onTabDrwaer: () {
+            setState(() {
               selectedCategory = null;
-              Navigator.pop(context);
-              setState(() {});
-            },
-          ),
-        ));
+            });
+            Navigator.pop(context);
+          },
+        ),
+      ),
+      drawerEnableOpenDragGesture:
+          true, // Allow drawer swipe gesture even without AppBar
+    );
   }
 
-  CategoryModel? selectedCategory;
-
   void onViewClicked(CategoryModel newCategory) {
-    selectedCategory = newCategory;
-    setState(() {});
+    setState(() {
+      selectedCategory = newCategory;
+      sourceviewmodel.getSource(
+          selectedCategory!.id); // Fetch sources when a category is selected
+    });
   }
 }
