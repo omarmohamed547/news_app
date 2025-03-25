@@ -10,4 +10,10 @@ class NewsRemoteDatasourceImpl implements NewsRemoteDatasource {
     var response = await apiManager.getNewsById(sourceId);
     return response;
   }
+
+  @override
+  Future<NewsResponse?> getNewsBySearch(String q) async {
+    var response = await apiManager.getNewsBysearch(q);
+    return response;
+  }
 }

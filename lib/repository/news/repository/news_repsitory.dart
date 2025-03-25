@@ -2,4 +2,5 @@ import 'package:news_route/models/news_response/news_response.dart';
 
 abstract class NewsRepsitory {
   Future<NewsResponse?> getNewsById(String sourceId);
+  Future<NewsResponse?> getNewsBySearch(String q);
 }

@@ -8,7 +8,7 @@ import 'package:news_route/ui/category_fragment.dart';
 import 'package:news_route/ui/home_screen/Home_drawer.dart';
 import 'package:news_route/ui/category_details/category_deatils.dart';
 import 'package:news_route/utils/app_style.dart';
-import 'package:news_route/utils/search_anchor.dart';
+import 'package:news_route/utils/search_dlegate.dart';
 
 class HomeScreen extends StatefulWidget {
   static const homeScreenId = "HomeScreen";
@@ -58,29 +58,7 @@ class _HomeScreenState extends State<HomeScreen> {
             IconButton(
               icon: const Icon(Icons.search),
               onPressed: () {
-                selectedCategory == null
-                    ? showSearch(
-                        context: context,
-                        delegate: CustomSearchDelegate<CategoryModel>(
-                          items: categories,
-                          getTitle: (category) => category.title,
-                          onSelect: (category) {
-                            setState(() {
-                              selectedCategory = category;
-                            });
-                          },
-                        ),
-                      )
-                    : showSearch(
-                        context: context,
-                        delegate: CustomSearchDelegate<Source>(
-                          items: sourceviewmodel.sourceListt,
-                          getTitle: (source) => source.name ?? "Unknown",
-                          onSelect: (source) {
-                            _onSourceSelected(source);
-                          },
-                        ),
-                      );
+                showSearch(context: context, delegate: CustomSearchDelegate());
               },
             ),
           ]),

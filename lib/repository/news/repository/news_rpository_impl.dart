@@ -29,4 +29,18 @@ class NewsRpositoryImpl implements NewsRepsitory {
       return newsResponse;
     }
   }
+
+  @override
+  Future<NewsResponse?> getNewsBySearch(String q) async {
+    final List<ConnectivityResult> connectivityResult =
+        await Connectivity().checkConnectivity();
+
+    if (connectivityResult.contains(ConnectivityResult.mobile) ||
+        connectivityResult.contains(ConnectivityResult.wifi)) {
+//online
+      var newsResponse = await newsRemoteDatasource.getNewsBySearch(q);
+      newsLocalDatasource.saveNews(newsResponse, q);
+      return newsResponse;
+    }
+  }
 }
