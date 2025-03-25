@@ -28,18 +28,24 @@ class _SourceTabWidgetState extends State<SourceTabWidget>
     super.initState();
     sourceviewmodel = sourceViewModel(sourceRepository: injectSourceRepos());
 
-    int initialIndex = widget.selectedSource != null
-        ? widget.sourceList!.indexOf(widget.selectedSource!)
-        : 0;
+    int initialIndex = 0;
+    if (widget.sourceList != null && widget.sourceList!.isNotEmpty) {
+      if (widget.selectedSource != null) {
+        initialIndex = widget.sourceList!.indexOf(widget.selectedSource!);
+        if (initialIndex == -1) {
+          initialIndex = 0; // Fallback in case selected source is not found
+        }
+      }
+    }
 
     _tabController = TabController(
-      length: widget.sourceList!.length,
+      length: widget.sourceList?.length ?? 0,
       vsync: this,
       initialIndex: initialIndex,
     );
 
     _tabController.addListener(() {
-      if (_tabController.indexIsChanging) {
+      if (_tabController.indexIsChanging && widget.sourceList != null) {
         sourceviewmodel.changeIndex(_tabController.index, widget.sourceList!);
       }
     });

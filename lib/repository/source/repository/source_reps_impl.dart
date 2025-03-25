@@ -24,6 +24,9 @@ class SourceRepsImpl implements SourceRepository {
     } else {
       //offline
       var sourceResponse = await sourceLocalDatasource.getSources(categoryId);
+      if (sourceResponse == null || sourceResponse.sources!.isEmpty) {
+        throw Exception("Check your internet connection");
+      }
       return sourceResponse;
     }
   }

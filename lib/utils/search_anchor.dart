@@ -34,6 +34,29 @@ class CustomSearchDelegate<T> extends SearchDelegate<T?> {
   }
 
   @override
+  ThemeData appBarTheme(BuildContext context) {
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+
+    return ThemeData(
+      appBarTheme: AppBarTheme(
+        backgroundColor: isDarkMode ? Colors.black : Colors.white,
+        iconTheme:
+            IconThemeData(color: isDarkMode ? Colors.white : Colors.black),
+      ),
+      inputDecorationTheme: const InputDecorationTheme(
+        filled: true,
+        fillColor: Colors.white, // TextField background always white
+        hintStyle: TextStyle(color: Colors.grey),
+        border: InputBorder.none,
+      ),
+      textTheme: TextTheme(
+        titleLarge:
+            TextStyle(color: Colors.black), // Ensure text remains visible
+      ),
+    );
+  }
+
+  @override
   Widget buildResults(BuildContext context) {
     return Container(); // Not needed for our use case
   }
@@ -48,18 +71,21 @@ class CustomSearchDelegate<T> extends SearchDelegate<T?> {
             getTitle(item).toLowerCase().contains(query.toLowerCase()))
         .toList();
 
-    return ListView.builder(
-      itemCount: filteredItems.length,
-      itemBuilder: (context, index) {
-        final item = filteredItems[index];
-        return ListTile(
-          title: Text(getTitle(item)),
-          onTap: () {
-            onSelect(item);
-            close(context, item);
-          },
-        );
-      },
+    return Scaffold(
+      backgroundColor: Colors.white,
+      body: ListView.builder(
+        itemCount: filteredItems.length,
+        itemBuilder: (context, index) {
+          final item = filteredItems[index];
+          return ListTile(
+            title: Text(getTitle(item)),
+            onTap: () {
+              onSelect(item);
+              close(context, item);
+            },
+          );
+        },
+      ),
     );
   }
 }

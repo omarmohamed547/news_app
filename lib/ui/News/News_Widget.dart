@@ -54,12 +54,13 @@ class _NewsWidgetState extends State<NewsWidget> {
             return Center(
               child: Column(
                 children: [
-                  Text(state.errorMessage),
+                  Text(state.errorMessage,
+                      style: Theme.of(context).textTheme.labelLarge),
                   ElevatedButton(
                     onPressed: () {
                       newsViewModel.getNews(widget.source.id ?? "");
                     },
-                    child: Text('Try Again'),
+                    child: const Text('Try Again'),
                   )
                 ],
               ),

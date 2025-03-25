@@ -33,6 +33,7 @@ class _categoryDetailsState extends State<categoryDetails> {
 
   @override
   Widget build(BuildContext context) {
+    var width = MediaQuery.sizeOf(context).width;
     return BlocProvider(
       create: (context) => sourceviewmodel,
       child: BlocBuilder<sourceViewModel, SourceStates>(
@@ -43,16 +44,21 @@ class _categoryDetailsState extends State<categoryDetails> {
                 sourceList: state.sourceList);
           } else if (state is SourceFailureState) {
             return Center(
-              child: Column(
-                children: [
-                  Text(state.errorMessage),
-                  ElevatedButton(
-                    onPressed: () {
-                      sourceviewmodel.getSource(widget.categoryModel.id);
-                    },
-                    child: Text('Try Again'),
-                  )
-                ],
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: width * 0.04),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text(state.errorMessage,
+                        style: Theme.of(context).textTheme.labelLarge),
+                    ElevatedButton(
+                      onPressed: () {
+                        sourceviewmodel.getSource(widget.categoryModel.id);
+                      },
+                      child: Text('Try Again'),
+                    )
+                  ],
+                ),
               ),
             );
           } else {

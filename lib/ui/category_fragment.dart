@@ -43,7 +43,7 @@ class CategoryFragment extends StatelessWidget {
                               horizontal: width * 0.03,
                               vertical: height * 0.02),
                           child: ToggleSwitch(
-                            customWidths: [width * 0.35, width * 0.10],
+                            customWidths: [width * 0.45, width * 0.15],
                             cornerRadius: 20.0,
                             activeBgColors: [
                               [Theme.of(context).primaryColor],
@@ -55,8 +55,12 @@ class CategoryFragment extends StatelessWidget {
                             customWidgets: [
                               Text(
                                 "View All",
-                                style:
-                                    Theme.of(context).textTheme.headlineMedium,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .headlineMedium
+                                    ?.copyWith(
+                                      fontSize: 22,
+                                    ),
                               ),
                               CircleAvatar(
                                 backgroundColor: Theme.of(context).primaryColor,

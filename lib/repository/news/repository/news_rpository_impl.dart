@@ -23,6 +23,9 @@ class NewsRpositoryImpl implements NewsRepsitory {
     } else {
       //offline
       var newsResponse = await newsLocalDatasource.getNews(sourceId);
+      if (newsResponse == null) {
+        throw Exception("Check your internet connection");
+      }
       return newsResponse;
     }
   }
