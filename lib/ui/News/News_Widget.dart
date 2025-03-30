@@ -11,6 +11,7 @@ import 'package:provider/provider.dart';
 
 class NewsWidget extends StatefulWidget {
   Source source;
+
   NewsWidget({required this.source, super.key});
 
   @override
@@ -19,12 +20,12 @@ class NewsWidget extends StatefulWidget {
 
 class _NewsWidgetState extends State<NewsWidget> {
   NewsViewModel newsViewModel = NewsViewModel(newsRepsitory: injectNewsRepos());
+  final ScrollController _scrollController = ScrollController();
 
   @override
   void didUpdateWidget(covariant NewsWidget oldWidget) {
     super.didUpdateWidget(oldWidget);
 
-    // Check if source has changed
     if (widget.source.id != oldWidget.source.id) {
       newsViewModel.getNews(widget.source.id!);
     }
@@ -32,10 +33,21 @@ class _NewsWidgetState extends State<NewsWidget> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-
     newsViewModel.getNews(widget.source.id!);
+
+    _scrollController.addListener(() {
+      if (_scrollController.position.pixels >=
+          _scrollController.position.maxScrollExtent - 100) {
+        newsViewModel.loadMoreNews(widget.source.id!);
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
   }
 
   @override
@@ -46,9 +58,17 @@ class _NewsWidgetState extends State<NewsWidget> {
         builder: (context, state) {
           if (state is NewsSucessState) {
             return ListView.builder(
-                itemCount: state.newsList.length,
+                controller: _scrollController,
+                itemCount: state.newsList.length + 1,
                 itemBuilder: (itemBuilder, index) {
-                  return NewsItem(news: state.newsList[index]);
+                  if (index < state.newsList.length) {
+                    return NewsItem(news: state.newsList[index]);
+                  } else {
+                    return const Center(
+                        child: CircularProgressIndicator(
+                      color: Colors.grey,
+                    ));
+                  }
                 });
           } else if (state is NewsFailureState) {
             return Center(
@@ -65,11 +85,14 @@ class _NewsWidgetState extends State<NewsWidget> {
                 ],
               ),
             );
-          } else {
+          } else if (state is NewsLoadingState &&
+              newsViewModel.newsList.isEmpty) {
             return const Center(
                 child: CircularProgressIndicator(
               color: Colors.grey,
             ));
+          } else {
+            return Container();
           }
         },
       ),

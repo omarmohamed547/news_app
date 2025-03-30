@@ -10,14 +10,14 @@ class NewsRpositoryImpl implements NewsRepsitory {
   NewsRpositoryImpl(
       {required this.newsRemoteDatasource, required this.newsLocalDatasource});
   @override
-  Future<NewsResponse?> getNewsById(String sourceId) async {
+  Future<NewsResponse?> getNewsById(String sourceId, int page) async {
     final List<ConnectivityResult> connectivityResult =
         await Connectivity().checkConnectivity();
 
     if (connectivityResult.contains(ConnectivityResult.mobile) ||
         connectivityResult.contains(ConnectivityResult.wifi)) {
 //online
-      var newsResponse = await newsRemoteDatasource.getNewsById(sourceId);
+      var newsResponse = await newsRemoteDatasource.getNewsById(sourceId, page);
       newsLocalDatasource.saveNews(newsResponse, sourceId);
       return newsResponse;
     } else {
