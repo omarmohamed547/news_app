@@ -1,16 +1,23 @@
-# news_route
 
-A new Flutter project.
+# news_app
 
-## Getting Started
+A simple Flutter News App with a single screen that provides real-time news articles from an API. The app supports theme switching (dark/light mode), category-based filtering, source-based filtering, and search functionality. It also stores fetched news locally using Hive for offline access.
 
-This project is a starting point for a Flutter application.
+## Features
 
-A few resources to get you started if this is your first Flutter project:
+- **Single Screen UI**: Clean and responsive layout that displays all the content in one main screen.
+- **Theme Switching**: Choose between light and dark themes using a drawer menu, implemented using the `Provider` package.
+- **HTTP Integration**: Fetch real-time data from a public News API using the `http` package.
+- **Category Filtering**: Users can view different categories (e.g., General, Sports, Business) and fetch news related to the selected category.
+- **Source Filtering**: On selecting a category, sources related to that category are displayed. Clicking on a source fetches news specifically from that source.
+- **Search News**: Users can search for news articles using keywords with the help of `SearchAnchor` class.
+- **Local Caching**: All fetched articles are stored locally using Hive for quick access and offline viewing.
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+## Technologies Used
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+- **Flutter**
+- **Provider** for state and theme management
+- **http** for API requests
+- **Hive** for local storage
+- **SearchAnchor** for in-app search
+- **Drawer** widget for navigation and theme toggling
